@@ -1,6 +1,6 @@
 /********************************************************
  * @author  Airead Fan <fgh1987168@gmail.com>		*
- * @date    201110月 13 21:45:21 CST			*
+ * @date    201110月 13 21:58:18 CST			*
  ********************************************************
  *		after studying C 87 days		*
  *		after studying APUE 52 days		*
@@ -8,8 +8,6 @@
  ********************************************************/
 
 /*
- * This program demonstrates 
- *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -25,6 +23,16 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+;;; This is an entry routine
+	
+	.arm			@32 bit instructions
+	
+	.section ".reset", "ax"	@section name and attribute
+	.global _start
 
-sword-bsp: sword(open board) board support package
-==================================================================
+_start:
+	LDR sp, #0x8000		@set stack(FD), SRAM is 32k
+	bl main			@called main
+	b .			@catch pc
+	
+	.end

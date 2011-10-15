@@ -1,6 +1,6 @@
 /********************************************************
  * @author  Airead Fan <fgh1987168@gmail.com>		*
- * @date    201110月 13 21:45:21 CST			*
+ * @date    201110月 13 21:56:02 CST			*
  ********************************************************
  *		after studying C 87 days		*
  *		after studying APUE 52 days		*
@@ -25,6 +25,12 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "main.h"
 
-sword-bsp: sword(open board) board support package
-==================================================================
+/*
+ * Main function, entry point
+ */
+int main(int argc, char *argv[])
+{
+	
+}
