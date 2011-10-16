@@ -36,7 +36,7 @@ CFLAGS = -Wall -g -nostdinc -I$(INCLUDEDIR)
 VPATH := $(subst /, , $(shell ls -d */))
 
 # Generic code
-find_files = $(wildcard $(dir)/*.[cS])
+find_files = $(wildcard $(dir)/*.[c])
 dirs := $(subst :, , $(VPATH))
 
 SRC_OBJS_PRE := $(foreach dir,$(dirs),$(find_files))
@@ -47,9 +47,13 @@ SRC_OBJS_DEPEND := $(notdir $(SRC_OBJS))
 find_elf = $(wildcard $(dir)/*.elf)
 find_bin = $(wildcard $(dir)/*.bin)
 find_map = $(wildcard $(dir)/*.map)
+find_~ =  $(wildcard $(dir)/*~)
+find_obj =  $(wildcard $(dir)/*.o)
 ELFANDBIN := $(foreach dir,$(dirs),$(find_elf))
 ELFANDBIN += $(foreach dir,$(dirs),$(find_bin))
 ELFANDBIN += $(foreach dir,$(dirs),$(find_map))
+ELFANDBIN += $(foreach dir,$(dirs),$(find_~))
+ELFANDBIN += $(foreach dir,$(dirs),$(find_obj))
 
 .PHONY: test, build_objs, build, clean, cleanall
 

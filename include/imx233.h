@@ -29,6 +29,8 @@
 #define REGS_PINCTRL_BASE_PHYS (0x80018000)
 #define REGS_DIGCTL_BASE_PHYS (0x8001C000)
 #define REGS_RTC_BASE_PHYS (0x8005C000)
+#define REGS_DBGDUART_BASE_PHYS (0x80070000)
+
 
 /* struct define */
 typedef volatile unsigned int REG;
@@ -110,6 +112,26 @@ struct HW_RTC{
 	struct REG4 persistent[6];
 	struct REG4 debug;
 	REG version;
+};
+
+/* ---------------------------------------------------------- */
+struct HW_DBGUART{
+	REG dr;			/* 0x000 */
+	REG sr_ecr;		/* 0x004 */
+	REG pad1[4];		/* 0x008-0x014 */
+	REG fr;			/* 0x018 */
+	REG pad2;		/* 0x01C */
+	REG ilpr;		/* 0x020 */
+	REG ibrd;		/* 0x024 */
+	REG fbrd;		/* 0x028 */
+	REG lcr_h;		/* 0x02C */
+	REG cr;			/* 0x030 */
+	REG ifls;		/* 0x034 */
+	REG imsc;		/* 0x038 */
+	REG ris;		/* 0x03C */
+	REG mis;		/* 0x040 */
+	REG icr;		/* 0x044 */
+	REG macr;		/* 0x048 */
 };
 
 #endif

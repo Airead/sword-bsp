@@ -1,10 +1,10 @@
 /********************************************************
  * @author  Airead Fan <fgh1987168@gmail.com>		*
- * @date    201110月 13 22:25:53 CST			*
+ * @date    201110月 15 20:10:52 CST			*
  ********************************************************
- *		after studying C 87 days		*
- *		after studying APUE 52 days		*
- *		after studying ARM 5 days		*
+ *		after studying C 89 days		*
+ *		after studying APUE 54 days		*
+ *		after studying ARM 7 days		*
  ********************************************************/
 
 /*
@@ -24,45 +24,42 @@
  */
 
 #include "imx233.h"
-#include "sw_beep.h"
+#include "sw_led.h"
 
 /* regsiter define */
 static struct HW_PINCTRL * const pinctrl = 
 	(struct HW_PINCTRL *) REGS_PINCTRL_BASE_PHYS;
 
 /*
- * Initialize the environment of beep
+ * Initialize the environment of led
  */
-int sw_beep_init()
+int sw_led_init()
 {
 	/*
 	 * 1. find bank and pin
-	 *     CONTROL --> (91)PWM2/GPMI_RDY3 --> bank1 pin28
+	 *     GPIO1 --> (14)LCD_RS/LCD_CCIRCLK --> bank1 pin19
 	 */
-
-	/* turn off beep */
-	sw_beep_off();
 	
 	/*
-	 * Wirte to HW_PINCTRL_DRIVEx register bit to select desired
+	 * Wirte to HW_PINCTRL_DRIVE6 register bit to select desired
 	 * pin voltage;
-	 * | 17:16 | BANK1_PIN28_MA | RW | 0x0 | 
-	 * Pin 129, PWM2 pin output drive strength selection:
+	 * | 17:16 | BANK1_PIN19_MA | RW | 0x0 | 
 	 * 00= 4 mA;
 	 * 01= 8 mA;
 	 * 10= 12 mA;
 	 * 11= reserved.
 	 */
-	pinctrl->drive[7].clr = 3 << 16; /* set 4mA */
+	pinctrl->drive[6].clr = 3 << 16; /* set 4mA */
 	
 	/*
 	 * Write to HW_PINCTRL_MUXSEL3 register bit to select pin as GPIO;
-	 * 00= pwm2;\
-	 * 01= gpmi_ready3;
+	 * 7:6 bit
+	 * 00= lcd_rs;
+	 * 01= etm_tclk;
 	 * 10= reserved;
 	 * 11= GPIO.
 	 */
-	pinctrl->muxsel[3].set = 3 << 24; /* set GPIO */
+	pinctrl->muxsel[3].set = 3 << 6; /* set GPIO */
 
 	/*
 	 * Write zero to HW_PINCTRL_DOE1 register bit to ensure pin
@@ -72,7 +69,7 @@ int sw_beep_init()
 	 * allows the chip to drive the corresponding pin in GPIO
 	 * mode.
 	 */
-	pinctrl->doe[1].set = 1 << 28; /* enable bank1 pin28 to GPIO */
+	pinctrl->doe[1].set = 1 << 19; /* enable bank1 pin19 to GPIO */
 
 	/* if applicable, set bits in HW_PINCTRL_PULL */
 	/* here do nothing */
@@ -88,7 +85,7 @@ int sw_beep_init()
 	return 0;
 }
 
-int sw_beep_close()
+int sw_led_close()
 {
 	/*
 	 * Write zero to HW_PINCTRL_DOE1 register bit to ensure pin
@@ -98,29 +95,30 @@ int sw_beep_close()
 	 * allows the chip to drive the corresponding pin in GPIO
 	 * mode.
 	 */
-	pinctrl->doe[1].clr = 1 << 28; /* disable bank1 pin28 to GPIO */
+	pinctrl->doe[1].clr = 1 << 19; /* disable bank1 pin19 to GPIO */
 	
 	return 0;
+
 }
 
-int sw_beep_on()
+int sw_led_on()
 {
 	/*
-	 * turn on beep;
+	 * turn on led;
 	 * set bank1 pin28 to 0
 	 */
-	pinctrl->dout[1].clr = 1 << 28;
+	pinctrl->dout[1].clr = 1 << 19;
 	
 	return 0;
 }
 
-int sw_beep_off()
+int sw_led_off()
 {
 	/*
-	 * turn off beep;
+	 * turn off led;
 	 * set bank1 pin28 to 1
 	 */
-	pinctrl->dout[1].set = 1 << 28;
+	pinctrl->dout[1].set = 1 << 19;
 	
 	return 0;
 }
