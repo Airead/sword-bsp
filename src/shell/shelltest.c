@@ -27,6 +27,6 @@
 
 int shelltest(int argc, char *argv[])
 {
-	
+	sw_shell_main();
 	return 0;
 }

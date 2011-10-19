@@ -1,6 +1,6 @@
 /********************************************************
  * @author  Airead Fan <fgh1987168@gmail.com>		*
- * @date    201110月 19 14:30:44 CST			*
+ * @date    201110月 19 17:00:34 CST			*
  ********************************************************
  *		after studying C 93 days		*
  *		after studying APUE 58 days		*
@@ -23,35 +23,56 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "sw_stdio.h"
-#include "sw_shell.h"
-#include "sw_beep.h"
-#include "sw_uartdbg.h"
-#include "swstd.h"
-#include "sw_shcmd.h"
-
-int sw_shell_main()
+#include "sw_stdio.h"		/* for NULL */
+/*
+ * Compare string
+ *   @return:
+ *       if return 1, str1 > str2;
+ *       if return 0, str1 = str2;
+ *       if return -1, str1 < str2;
+ */
+int sw_strcmp(const char *str1, const char * str2)
 {
-	int i;
-	char cmd_buf[CMD_BUF_SIZE];
+	const char *p, *q;
 
-	/* Intialize used module */
-	sw_beep_init();
-	sw_uartdbg_nofifo_init();
-
-	/* Beep 3 times indicates the start of the New World */
-	for(i = 0; i < 3; i++){
-		sw_beep_on();
-		sw_usleep(150 * 1000);
-		sw_beep_off();
-		sw_usleep(50 * 1000);
+	p = str1;
+	q = str2;
+	
+	while(*p != '\0' && *q != '\0'){ /* first compare */
+		if(*p > *q){
+			return 1;
+		}else if(*p < *q){
+			return -1;
+		}
+		p++;
+		q++;
 	}
 
-	for(;;){
-		sw_puts("x-boot# ");
-		sw_getn(cmd_buf, CMD_BUF_SIZE);
-		sw_puts("\n\r");
-		cmd_run(cmd_buf);
+	if(*p == '\0' && *q == '\0'){	/* equal */
+		return 0;
+	}else if(*p == 0){	/* str1 < str2 */
+		return -1;
+	}else{
+		return 1;	/* str1 > str2 */
 	}
-	return 0;
+}
+
+/*
+ * Returns a pointer to the first occurrence of the character c in the string str.
+ * if not found, return NULL
+ */
+char *sw_strchr(const char *str, int c)
+{
+	const char *p;
+
+	p = str;
+	while(*p != '\0'){
+		if(*p == c){
+			return (char *)p;
+		}else{
+			p++;
+		}
+	}
+
+	return NULL;
 }

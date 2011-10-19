@@ -1,6 +1,6 @@
 /********************************************************
  * @author  Airead Fan <fgh1987168@gmail.com>		*
- * @date    201110月 19 14:30:44 CST			*
+ * @date    201110月 19 17:00:42 CST			*
  ********************************************************
  *		after studying C 93 days		*
  *		after studying APUE 58 days		*
@@ -23,35 +23,12 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "sw_stdio.h"
-#include "sw_shell.h"
-#include "sw_beep.h"
-#include "sw_uartdbg.h"
-#include "swstd.h"
-#include "sw_shcmd.h"
+#ifndef SWORD_STR_H
+#define SWORD_STR_H
 
-int sw_shell_main()
-{
-	int i;
-	char cmd_buf[CMD_BUF_SIZE];
+int sw_strcmp(const char *str1, const char *str2);
+char *sw_strchr(const char *str, int c);
 
-	/* Intialize used module */
-	sw_beep_init();
-	sw_uartdbg_nofifo_init();
 
-	/* Beep 3 times indicates the start of the New World */
-	for(i = 0; i < 3; i++){
-		sw_beep_on();
-		sw_usleep(150 * 1000);
-		sw_beep_off();
-		sw_usleep(50 * 1000);
-	}
 
-	for(;;){
-		sw_puts("x-boot# ");
-		sw_getn(cmd_buf, CMD_BUF_SIZE);
-		sw_puts("\n\r");
-		cmd_run(cmd_buf);
-	}
-	return 0;
-}
+#endif

@@ -1,10 +1,10 @@
 /********************************************************
  * @author  Airead Fan <fgh1987168@gmail.com>		*
- * @date    201110月 19 14:30:44 CST			*
+ * @date    201110月 18 09:20:32 CST			*
  ********************************************************
- *		after studying C 93 days		*
- *		after studying APUE 58 days		*
- *		after studying ARM 11 days		*
+ *		after studying C 92 days		*
+ *		after studying APUE 57 days		*
+ *		after studying ARM 10 days		*
  ********************************************************/
 
 /*
@@ -23,35 +23,16 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "sw_stdio.h"
-#include "sw_shell.h"
-#include "sw_beep.h"
-#include "sw_uartdbg.h"
-#include "swstd.h"
-#include "sw_shcmd.h"
+#ifndef SWORD_KEYBOARD_H
+#define SWORD_KEYBOARD_H
 
-int sw_shell_main()
-{
-	int i;
-	char cmd_buf[CMD_BUF_SIZE];
+#define IRQ_LEVEL 1
+#define IRQ_EDGE 0
+#define IRQ_LOW 0
+#define IRQ_HIGH 1
 
-	/* Intialize used module */
-	sw_beep_init();
-	sw_uartdbg_nofifo_init();
+int sw_int_init_icoll();
+int sw_int_init_pinctrl(int bankn, int pinn, int irqlevel, int irqpol,
+			int irqsrc, int priority, void irq_handle(void));
 
-	/* Beep 3 times indicates the start of the New World */
-	for(i = 0; i < 3; i++){
-		sw_beep_on();
-		sw_usleep(150 * 1000);
-		sw_beep_off();
-		sw_usleep(50 * 1000);
-	}
-
-	for(;;){
-		sw_puts("x-boot# ");
-		sw_getn(cmd_buf, CMD_BUF_SIZE);
-		sw_puts("\n\r");
-		cmd_run(cmd_buf);
-	}
-	return 0;
-}
+#endif

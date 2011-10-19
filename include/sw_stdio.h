@@ -1,10 +1,10 @@
 /********************************************************
  * @author  Airead Fan <fgh1987168@gmail.com>		*
- * @date    201110月 16 13:25:59 CST			*
+ * @date    201110月 19 15:23:08 CST			*
  ********************************************************
- *		after studying C 90 days		*
- *		after studying APUE 55 days		*
- *		after studying ARM 8 days		*
+ *		after studying C 93 days		*
+ *		after studying APUE 58 days		*
+ *		after studying ARM 11 days		*
  ********************************************************/
 
 /*
@@ -25,5 +25,12 @@
 
 #ifndef SWORD_STDIO_H
 #define SWORD_STDIO_H
+
+#define NULL ((void *)0)
+
+int sw_getchar();
+int sw_putchar(char c);
+char *sw_getn(char *str, int n);
+int sw_puts(char *str);
 
 #endif

@@ -29,7 +29,7 @@ SRC_OBJS_DEPEND := $(notdir $(SRC_OBJS))
 
 
 # Project name
-PROJ := stringtest
+PROJ := strtest
 
 # Project ELF,binary image
 PROJ_ELF = $(PROJ).elf

@@ -50,11 +50,15 @@ find_bin = $(wildcard $(dir)/*.bin)
 find_map = $(wildcard $(dir)/*.map)
 find_~ =  $(wildcard $(dir)/*~)
 find_obj =  $(wildcard $(dir)/*.o)
+find_files =  $(wildcard $(dir)/*.files)
+find_out =  $(wildcard $(dir)/*.out)
 ELFANDBIN := $(foreach dir,$(dirs),$(find_elf))
 ELFANDBIN += $(foreach dir,$(dirs),$(find_bin))
 ELFANDBIN += $(foreach dir,$(dirs),$(find_map))
 ELFANDBIN += $(foreach dir,$(dirs),$(find_~))
 ELFANDBIN += $(foreach dir,$(dirs),$(find_obj))
+ELFANDBIN += $(foreach dir,$(dirs),$(find_files))
+ELFANDBIN += $(foreach dir,$(dirs),$(find_out))
 
 .PHONY: test, build_objs, build, clean, cleanall
 

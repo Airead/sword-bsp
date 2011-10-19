@@ -1,6 +1,6 @@
 /********************************************************
  * @author  Airead Fan <fgh1987168@gmail.com>		*
- * @date    201110月 19 14:30:44 CST			*
+ * @date    201110月 19 18:25:01 CST			*
  ********************************************************
  *		after studying C 93 days		*
  *		after studying APUE 58 days		*
@@ -23,35 +23,30 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "sw_str.h"
 #include "sw_stdio.h"
-#include "sw_shell.h"
-#include "sw_beep.h"
-#include "sw_uartdbg.h"
-#include "swstd.h"
-#include "sw_shcmd.h"
 
-int sw_shell_main()
+int strtest(int argc, char *argv[])
 {
-	int i;
-	char cmd_buf[CMD_BUF_SIZE];
+	int ret;
 
-	/* Intialize used module */
-	sw_beep_init();
-	sw_uartdbg_nofifo_init();
+	/* test sw_strcmp */
+	sw_puts("----------------------");
+	sw_puts("\n\r");
+	sw_puts("fand compare fan: ");
+	ret = sw_strcmp("fand", "fan");
+	sw_putchar(ret | 0x30);
+	sw_puts("\n\r");
 
-	/* Beep 3 times indicates the start of the New World */
-	for(i = 0; i < 3; i++){
-		sw_beep_on();
-		sw_usleep(150 * 1000);
-		sw_beep_off();
-		sw_usleep(50 * 1000);
-	}
+	sw_puts("fan compare li: ");
+	ret = sw_strcmp("fan", "li");
+	sw_putchar(ret | 0x30);
+	sw_puts("\n\r");
 
-	for(;;){
-		sw_puts("x-boot# ");
-		sw_getn(cmd_buf, CMD_BUF_SIZE);
-		sw_puts("\n\r");
-		cmd_run(cmd_buf);
-	}
+	sw_puts("li compare fan: ");
+	ret = sw_strcmp("li", "fan");
+	sw_putchar(ret | 0x30);
+	sw_puts("\n\r");
+
 	return 0;
 }
