@@ -35,18 +35,4 @@ _start:
 	bl interrupttest	@call keyboardtest
 	b .			@catch pc
 
-	.global irq_enable
-irq_enable:
-	mrs r0, cpsr
-	bic r0, r0, #0x80
-	msr cpsr_c , r0
-	mov pc, lr
-
-	.global irq_disable
-irq_disable:
-	mrs r0, cpsr
-	orr r0, r0, #0x80
-	msr cpsr_c , r0
-	mov pc, lr
-
 	.end

@@ -1,10 +1,10 @@
 /********************************************************
  * @author  Airead Fan <fgh1987168@gmail.com>		*
- * @date    201110月 14 21:39:35 CST			*
+ * @date    201110月 13 22:20:26 CST			*
  ********************************************************
- *		after studying C 88 days		*
- *		after studying APUE 53 days		*
- *		after studying ARM 6 days		*
+ *		after studying C 87 days		*
+ *		after studying APUE 52 days		*
+ *		after studying ARM 5 days		*
  ********************************************************/
 
 /*
@@ -23,49 +23,16 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-OUTPUT_FORMAT("elf32-littlearm", "elf32-littlearm", "elf32-littlearm")
-OUTPUT_ARCH(arm)
-ENTRY(_start)
+@This is an `testbeep` entry routine
 
-SECTIONS
-{
-	/* BASE_ADDR will be replaced with definition in Makefile by cpp */
-	. = BASE_ADDR;
-	.reset : {
-	       KEEP(*(.reset));
-	}
+	.arm
 
-	. = ALIGN(32);
-	.text : {
-	      KEEP(*(.text));
-	}
+	.section ".reset", "ax"
+	.global _start
 
-	. = ALIGN(32);
-	.init : {
-	      KEEP(*(.init));
-	}
+_start:
+	mov sp, #0x8000		@set stack(FD)
+	bl shelltest		@call shelltest
+	b .			@catch pc
 
-	. = ALIGN(32);
-	.rodata : {
-		 KEEP(*(.rodata));
-	}
-
-	. = ALIGN(32);
-	.data : { 
-	      KEEP(*(.data));
-	}
-
-	. = ALIGN(32);
-	_bin_end = .;
-
-	. = ALIGN(32);
-
-	.bss : { 
-		_bss_start = .;
-		KEEP(*(.bss*));
-		_bss_end = .;
-	}
-
-	. = ALIGN(32);
-	_heap_start = .;
-}
+	.end

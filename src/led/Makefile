@@ -17,10 +17,11 @@ OBJDUMP	= $(CROSS_COMPILE)objdump
 VPATH := $(shell ls -d ../*/ ) #| cut -d '/' -f 2)
 
 # Generic code
-find_files = $(wildcard $(dir)*.[c])
+find_files = $(wildcard $(dir)*.[cS])
 dirs := $(subst :, , $(VPATH))
 
 SRC_OBJS_PRE := $(foreach dir,$(dirs),$(find_files))
+SRC_OBJS_PRE := $(filter-out %entry.S, $(SRC_OBJS_PRE))
 SRC_OBJS_PRE += $(wildcard *.S)
 SRC_OBJS := $(patsubst %.c, %.o, $(SRC_OBJS_PRE))
 SRC_OBJS := $(patsubst %.S, %.o, $(SRC_OBJS))
