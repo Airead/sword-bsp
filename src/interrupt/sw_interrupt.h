@@ -1,15 +1,13 @@
 /********************************************************
  * @author  Airead Fan <fgh1987168@gmail.com>		*
- * @date    201110月 13 21:45:21 CST			*
+ * @date    201110月 18 09:20:32 CST			*
  ********************************************************
- *		after studying C 87 days		*
- *		after studying APUE 52 days		*
- *		after studying ARM 5 days		*
+ *		after studying C 92 days		*
+ *		after studying APUE 57 days		*
+ *		after studying ARM 10 days		*
  ********************************************************/
 
 /*
- * This program demonstrates 
- *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -25,26 +23,16 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#ifndef SWORD_KEYBOARD_H
+#define SWORD_KEYBOARD_H
 
-sword-bsp: sword(open board) board support package
-	<https://github.com/Airead/sword-bsp>   
-==================================================================
+#define IRQ_LEVEL 1
+#define IRQ_EDGE 0
+#define IRQ_LOW 0
+#define IRQ_HIGH 1
 
-Include
-=================================
- 1. s-boot
- 2. linux kernel
- 3. file system
+int sw_int_init_icoll();
+int sw_int_init_pinctrl(int bankn, int pinn, int irqlevel, int irqpol,
+			int irqsrc, int priority, void irq_handle(void));
 
-
-Main Function
-=================================
-
-
-
-Members of the group
-=================================
-Zhao Zichen, Lv Yufei, Sun Zhigang, Fan Renhao
-
-
-
+#endif

@@ -26,6 +26,7 @@
 #ifndef SWORD_IMX233_H
 #define SWORD_IMX233_H
 
+#define REGS_ICOLL_BASE_PHYS (0x80000000)
 #define REGS_PINCTRL_BASE_PHYS (0x80018000)
 #define REGS_DIGCTL_BASE_PHYS (0x8001C000)
 #define REGS_RTC_BASE_PHYS (0x8005C000)
@@ -43,6 +44,28 @@ struct REG4{
 struct REG1{
 	REG dat;
 	REG pad[3];
+};
+
+/* ---------------------------------------------------------- */
+struct HW_ICOLL{
+	struct REG4 vector;	/* 0x000 */
+	struct REG1 levelack;	/* 0x010 */
+	struct REG4 ctrl;	/* 0x020 */
+	struct REG4 pad1;	/* 0x030 */
+	struct REG4 vbase;	/* 0x040 */
+	struct REG4 pad2[2];	/* 0x050-0x060 */
+	struct REG1 stat;	/* 0x070 */
+	struct REG4 pad3[2];	/* 0x080-0x090 */
+	struct REG4 raw[4];	/* 0x0A0-0x0D0 */
+	struct REG4 pad4[4];	/* 0x0E0-0x110 */
+	struct REG4 interrupt[128]; /* 0x120-0x910 */
+	struct REG4 pad5[128];	    /* 0x920-0x1110 */
+	struct REG4 debug;	    /* 0x1120 */
+	struct REG4 dbgread[2];	    /* 0x1130-0x1140 */
+	struct REG4 dbgflag;	    /* 0x1150 */
+	struct REG4 dbgrequest[4];  /* 0x1160-0x1190 */
+	struct REG4 pad6[4];	    /* 0x11A0-0x11D0 */
+	struct REG1 version;	    /* 0x11E0 */
 };
 
 /* ---------------------------------------------------------- */

@@ -1,15 +1,13 @@
 /********************************************************
  * @author  Airead Fan <fgh1987168@gmail.com>		*
- * @date    201110月 13 21:45:21 CST			*
+ * @date    201110月 15 21:29:22 CST			*
  ********************************************************
- *		after studying C 87 days		*
- *		after studying APUE 52 days		*
- *		after studying ARM 5 days		*
+ *		after studying C 89 days		*
+ *		after studying APUE 54 days		*
+ *		after studying ARM 7 days		*
  ********************************************************/
 
 /*
- * This program demonstrates 
- *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -25,26 +23,15 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#ifndef SWORD_UART_H
+#define SWORD_UART_H
 
-sword-bsp: sword(open board) board support package
-	<https://github.com/Airead/sword-bsp>   
-==================================================================
+#define SW_UART_CLK (24 * 1000 * 1000)
+#define SW_UART_BAUDRATE (115200)
 
-Include
-=================================
- 1. s-boot
- 2. linux kernel
- 3. file system
+int sw_uartdbg_nofifo_init();
+int sw_uartdbg_close();
+int sw_uartdbg_tc(unsigned char c);
+int sw_uartdbg_rc();
 
-
-Main Function
-=================================
-
-
-
-Members of the group
-=================================
-Zhao Zichen, Lv Yufei, Sun Zhigang, Fan Renhao
-
-
-
+#endif
