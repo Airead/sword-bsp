@@ -25,6 +25,7 @@
 
 #include "sw_stdio.h"
 #include "sw_uartdbg.h"
+#include "stdarg.h"
 
 /*
  * Get one char from serial port with uartdbg
@@ -96,4 +97,84 @@ int sw_puts(char *str)
 	}
 
 	return count;
+}
+
+/*
+ * family produce output according to a format
+ *   1. %u for Decimal unsigned int
+ *   2. %s for string
+ *   3. %x for hex unsigned int
+ *   4. %% output '%'
+ */
+int sw_printf(const char *format, ...)
+{
+	int i;
+	va_list ap;
+
+	va_start(ap, format);
+	
+	for(i = 0; format[i] != '\0'; i++){
+		if(format[i] == '%'){
+			i++;
+			switch(format[i]){
+			case 's':
+				sw_puts(va_arg(ap, char *));
+				continue;
+			case 'x':
+				sw_put_hex(va_arg(ap, unsigned int));
+				continue;
+			case 'u':
+				sw_put_uint(va_arg(ap, unsigned int));
+				continue;
+			case '%':
+				sw_putchar('%');
+				continue;
+			}
+		}
+		sw_putchar(format[i]);
+	}
+
+	return i;
+}
+
+/*
+ * output unsigned int with Decimal string
+ */
+int sw_put_uint(unsigned int num)
+{
+	int i;
+	char num_buf[15];
+
+	i = 0;
+	while((num / 10) != 0){
+		num_buf[i++] = (num % 10) | 0x30;
+		num /= 10;
+	}
+
+	if(i == 0){
+		sw_putchar(num | 0x30);
+	}
+
+	for(i = i - 1; i >= 0; i--){
+		sw_putchar(num_buf[i]);
+	}
+
+	return num;
+}
+
+/*
+ * output unsigned int with hex string
+ */
+int sw_put_hex(unsigned int num)
+{
+	int i;
+	char tmp;
+	char hex_flag[] = "0123456789ABCDEF";
+
+	for(i = 28; i >= 0; i -= 4){
+		tmp = (num >> i) & 0xf;
+		sw_putchar(hex_flag[(int)tmp]);
+	}
+
+	return num;
 }

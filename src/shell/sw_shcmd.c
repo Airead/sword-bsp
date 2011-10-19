@@ -81,16 +81,12 @@ int get_arglist(char *arg_list[], char *arg)
 
 int cmd_world(char *arg_list[], int n)
 {
-	int i;
+	unsigned int i;
 
 	sw_puts("world\n\r");
 	
 	for(i = 0; arg_list[i] != NULL; i++){
-		sw_puts("arg_list[");
-		sw_putchar(i | 0x30);
-		sw_puts("]: ");
-		sw_puts(arg_list[i]);
-		sw_puts("\n\r");
+		sw_printf("arg_list[%u]: %s\n\r", i, arg_list[i]);
 	}
 
 	return 0;

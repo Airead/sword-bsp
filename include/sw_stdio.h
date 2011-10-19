@@ -32,5 +32,8 @@ int sw_getchar();
 int sw_putchar(char c);
 char *sw_getn(char *str, int n);
 int sw_puts(char *str);
+int sw_printf(const char *format, ...);
+int sw_put_uint(unsigned int num);
+int sw_put_hex(unsigned int num);
 
 #endif
