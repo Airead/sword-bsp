@@ -1,10 +1,10 @@
 /********************************************************
  * @author  Airead Fan <fgh1987168@gmail.com>		*
- * @date    201110月 19 18:25:01 CST			*
+ * @date    201110月 20 12:07:26 CST			*
  ********************************************************
- *		after studying C 93 days		*
- *		after studying APUE 58 days		*
- *		after studying ARM 11 days		*
+ *		after studying C 94 days		*
+ *		after studying APUE 59 days		*
+ *		after studying ARM 12 days		*
  ********************************************************/
 
 /*
@@ -23,41 +23,58 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "sw_str.h"
+#include "sw_xmodem.h"
 #include "sw_stdio.h"
-#include "sw_uartdbg.h"
+#include "swstd.h"
 
-int strtest(int argc, char *argv[])
+/*
+ * Before call this funtion, you SHOULD have initialize uartdbg.
+ *
+ * Receive data from host
+ *   @return: bytes of receive data
+ */
+unsigned int sw_xmodem_rec(unsigned int addr)
 {
-	int ret;
-	char buf[128];
+	int c;
+	int i;
+	int count;
+	char *xbuf;
+	
+	xbuf = (char *)addr;
 
-	sw_uartdbg_nofifo_init();
+	count = 0;
 
-	/* test sw_strcmp */
-	sw_puts("----------------------");
-	sw_puts("\n\r");
-	sw_puts("fand compare fan: ");
-	ret = sw_strcmp("fand", "fan");
-	sw_putchar(ret | 0x30);
-	sw_puts("\n\r");
-
-	sw_puts("fan compare li: ");
-	ret = sw_strcmp("fan", "li");
-	sw_putchar(ret | 0x30);
-	sw_puts("\n\r");
-
-	sw_puts("li compare fan: ");
-	ret = sw_strcmp("li", "fan");
-	sw_putchar(ret | 0x30);
-	sw_puts("\n\r");
-
-	for(;;){
-		sw_getn(buf, 128);
-		sw_printf("\n\r");
-		ret = sw_strtoul(buf, NULL, 16);
-		sw_printf("[%s] = %u\n\r", buf, ret);
+	sw_printf("Countdown to receive data, you have 10 seconds...");
+	for(i = 9; i >= 0; i--)
+	{
+		sw_usleep(1000 * 1000);
+		sw_printf("%u ", i);
 	}
 
-	return 0;
+	sw_putchar(XMODEM_NAK); //start transfer
+
+	for(;;){
+		c = sw_getchar();
+
+		if(c == XMODEM_EOT){
+			break;
+		}
+		if(c != XMODEM_SOH){
+			continue;
+		}
+
+		sw_getchar();	/* eat package number */
+		sw_getchar();	/* eat package ~number */
+
+		for(i = 0; i < 128; i++){
+			*xbuf++ = sw_getchar();
+		}
+		
+		sw_getchar();	/* eat check byte */
+
+		sw_putchar(XMODEM_ACK);
+	}
+	sw_putchar(XMODEM_ACK);
+
+	return count;
 }

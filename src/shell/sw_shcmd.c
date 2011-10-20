@@ -26,10 +26,12 @@
 #include "sw_shcmd.h"
 #include "sw_stdio.h"
 #include "sw_str.h"
+#include "sw_xmodem.h"
 
 /* Shell command collector */
 static struct shell_cmd shell_cmds[] = {
-	{"hello", cmd_world}
+	{"hello", cmd_world},
+	{"xmr", cmd_xmodem_rec}
 };
 
 /*
@@ -37,7 +39,7 @@ static struct shell_cmd shell_cmds[] = {
  */
 int cmd_run(char *arg)
 {
-	int i;
+	unsigned int i;
 	int cmd_num;
 	int ret;
 	char *arg_list[CMD_ARG_NUM + 1];
@@ -79,6 +81,9 @@ int get_arglist(char *arg_list[], char *arg)
 	return count;
 }
 
+/*
+ * test shell command frame
+ */
 int cmd_world(char *arg_list[], int n)
 {
 	unsigned int i;
@@ -90,4 +95,22 @@ int cmd_world(char *arg_list[], int n)
 	}
 
 	return 0;
+}
+
+/*
+ * receive data from host with x-modem protocol
+ */
+int cmd_xmodem_rec(char *arg_list[], int n)
+{
+	unsigned int ret;
+	
+	if(n < 2){
+		sw_printf("usage: %s <memaddr>\n\r", arg_list[0]);
+		return -1;
+	}
+
+	//unsigned int sw_xmodem_rec(unsigned int addr);
+	ret = sw_xmodem_rec(sw_strtoul(arg_list[1], NULL, 16));
+
+	return ret;
 }

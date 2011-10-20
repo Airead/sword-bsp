@@ -150,10 +150,7 @@ int sw_put_uint(unsigned int num)
 		num_buf[i++] = (num % 10) | 0x30;
 		num /= 10;
 	}
-
-	if(i == 0){
-		sw_putchar(num | 0x30);
-	}
+	sw_putchar(num | 0x30);
 
 	for(i = i - 1; i >= 0; i--){
 		sw_putchar(num_buf[i]);

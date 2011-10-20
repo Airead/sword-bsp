@@ -39,5 +39,6 @@ struct shell_cmd{
 int cmd_run(char *arg);
 int get_arglist(char *arg_list[], char *arg);
 int cmd_world(char *args[], int n);
+int cmd_xmodem_rec(char *arg_list[], int n);
 
 #endif

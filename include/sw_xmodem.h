@@ -1,10 +1,10 @@
 /********************************************************
  * @author  Airead Fan <fgh1987168@gmail.com>		*
- * @date    201110月 19 18:25:01 CST			*
+ * @date    201110月 20 12:07:01 CST			*
  ********************************************************
- *		after studying C 93 days		*
- *		after studying APUE 58 days		*
- *		after studying ARM 11 days		*
+ *		after studying C 94 days		*
+ *		after studying APUE 59 days		*
+ *		after studying ARM 12 days		*
  ********************************************************/
 
 /*
@@ -23,41 +23,17 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "sw_str.h"
-#include "sw_stdio.h"
-#include "sw_uartdbg.h"
+#ifndef SWORD_XMODEM_H
+#define SWORD_XMODEM_H
 
-int strtest(int argc, char *argv[])
-{
-	int ret;
-	char buf[128];
+#define XMODEM_SOH 0x01
+#define XMODEM_STX 0x02
+#define XMODEM_EOT 0x04
+#define XMODEM_ACK 0x06
+#define XMODEM_NAK 0x15
+#define XMODEM_CAN 0x18
+#define XMODEM_CTRLZ 0x1A
 
-	sw_uartdbg_nofifo_init();
+unsigned int sw_xmodem_rec(unsigned int addr);
 
-	/* test sw_strcmp */
-	sw_puts("----------------------");
-	sw_puts("\n\r");
-	sw_puts("fand compare fan: ");
-	ret = sw_strcmp("fand", "fan");
-	sw_putchar(ret | 0x30);
-	sw_puts("\n\r");
-
-	sw_puts("fan compare li: ");
-	ret = sw_strcmp("fan", "li");
-	sw_putchar(ret | 0x30);
-	sw_puts("\n\r");
-
-	sw_puts("li compare fan: ");
-	ret = sw_strcmp("li", "fan");
-	sw_putchar(ret | 0x30);
-	sw_puts("\n\r");
-
-	for(;;){
-		sw_getn(buf, 128);
-		sw_printf("\n\r");
-		ret = sw_strtoul(buf, NULL, 16);
-		sw_printf("[%s] = %u\n\r", buf, ret);
-	}
-
-	return 0;
-}
+#endif
