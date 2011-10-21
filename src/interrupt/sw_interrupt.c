@@ -26,6 +26,7 @@
 #include "imx233.h"
 #include "sw_interrupt.h"
 #include "swstd.h"
+#include "sw_stdio.h"
 
 extern void int_init(void);		
 extern void irq_enable(void);
@@ -175,6 +176,13 @@ void irq_dist0(void)
 {
 	icoll->vector.dat = icoll->vector.dat; /* FIXME: what's meaning? */
 	(*((INTERRUPT_HANDLER *)icoll->vector.dat))();
+
+	/*
+	 * Set Level Acknowledge, regs = HW_ICOLL_LEVELACK
+	 *   3:0 | IRQLEVELACK | level0 = 0x1, 1 = 0x2, 2 = 0x4, 3 0x8 
+	 */
+	icoll->levelack.dat = 1; /* only fit level0, and no nest */
+
 }
 
 int irq_clear_pending(int bankn, int pinn, int priority)
@@ -183,9 +191,15 @@ int irq_clear_pending(int bankn, int pinn, int priority)
 	 * Set Level Acknowledge, regs = HW_ICOLL_LEVELACK
 	 *   3:0 | IRQLEVELACK | level0 = 0x1, 1 = 0x2, 2 = 0x4, 3 0x8 
 	 */
-	icoll->levelack.dat = 1 << priority; /* only fit level0, and no nest */
+	//icoll->levelack.dat = 1 << priority; /* only fit level0, and no nest */
 	
 	pinctrl->irqstat[bankn].clr = 1 << pinn;
 	
 	return 0;
+}
+
+void int_databort(void)
+{
+	sw_printf("data abort");
+	
 }

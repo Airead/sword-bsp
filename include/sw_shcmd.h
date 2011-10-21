@@ -32,7 +32,7 @@
 typedef int (*SW_SHELL_CMD)(char *arg_list[], int n);
 
 struct shell_cmd{
-	char name[20];
+	char *name;
 	SW_SHELL_CMD cmd;
 	char *usage;		/* short help */
 	char *help;		/* long help */
@@ -42,5 +42,16 @@ int cmd_run(char *arg);
 int get_arglist(char *arg_list[], char *arg);
 int cmd_world(char *args[], int n);
 int cmd_xmodem_rec(char *arg_list[], int n);
+int cmd_set_env(char *arg_list[], int n);
+int cmd_save_env(char *arg_list[], int n);
+int cmd_print_env(char *arg_list[], int n);
+int cmd_nand_write(char *arg_list[], int n);
+int cmd_nand_read(char *arg_list[], int n);
+int cmd_mem_write(char *arg_list[], int n);
+int cmd_mem_read(char *arg_list[], int n);
+int cmd_go(char *arg_list[], int n);
+int cmd_tftp(char *arg_list[], int n);
+int cmd_reset(char *arg_list[], int n);
+int cmd_help(char *arg_list[], int n);
 
 #endif

@@ -31,5 +31,7 @@ int sw_strncmp(const char *str1, const char *str2, int n);
 char *sw_strchr(const char *str, int c);
 int sw_ishex(char ch);
 unsigned long int sw_strtoul(char *nptr, char **endptr, int base);
+int sw_strlen(char *s);
+char *sw_strncat(char *dest, char *src, int n);
 
 #endif

@@ -81,6 +81,8 @@ char *sw_getn(char *str, int n)
 	}
 	*p = '\0';
 
+	sw_printf("\n\r");
+
 	if(count == 0){
 		return NULL;
 	}else{
@@ -181,4 +183,18 @@ int sw_put_hex(unsigned int num)
 	}
 
 	return num;
+}
+
+/*
+ * Try to get one char from serial port with uartdbg
+ *   @retrun: 1 is received, 0 is not
+ */
+int sw_trygetchar(char *ch)
+{
+	if(sw_uartdbg_isrc() == 1){
+		*ch = sw_uartdbg_rc() & 0xff;
+		return 1;
+	}else{
+		return 0;
+	}
 }

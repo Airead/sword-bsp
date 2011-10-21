@@ -35,7 +35,8 @@ int_init:
 	mov r1, #1
 	bic r0, r0, r1, LSL #13 
 	mcr p15, 0, r0, c1, c0, 0 @ write control register
-
+	
+set_stack:	
 	mov sp, #0x7500
 	msr cpsr_c, #0xd2 @change to irq mode
 	mov sp, #0x8000 @set irq stack
@@ -65,7 +66,7 @@ irq_handler:
 	B .				@undefined instruction (Undef)
 	B .				@soft interrupt (SVC)
 	B .				@pre instruction abort
-	B .				@data abort
+	LDR pc, =int_databort		@data abort
 	B .				@reserv
 	LDR pc, =irq_handler		@IRQ	
 	B .				@FIQ

@@ -120,7 +120,6 @@ unsigned long int sw_strtoul(char *nptr, char **endptr, int base)
 	int i;
 	unsigned long int ret;
 	char *p;
-	char tmp;
 
 	ret = 0;
 	p = nptr;
@@ -164,3 +163,37 @@ int sw_ishex(char ch)
 		return 0;
 	}
 }
+
+/*
+ * calculates  the  length  of  the string s, not
+ * including the terminating '\0' character.
+ */
+int sw_strlen(char *s)
+{
+	int count;
+
+	count = 0;
+	while(*s != '\0'){
+		count++;
+	}
+
+	return count;
+}
+/*
+ * appends the src string to the dest string, overwriting the
+ * null byte ('\0') at the end of dest, and then adds a terminating
+ * null byte.
+ */
+char *sw_strncat(char *dest,  char *src, int n)
+{
+	int dest_len = sw_strlen(dest);
+	int i;
+
+	for (i = 0 ; i < n && src[i] != '\0' ; i++){
+		dest[dest_len + i] = src[i];
+	}
+	dest[dest_len + i] = '\0';
+
+	return dest;
+}
+

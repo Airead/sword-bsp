@@ -149,3 +149,21 @@ int sw_uartdbg_rc()
 
 	return (dbguart->dr & 0xff);
 }
+
+/*
+ * Check data is exist from serial port
+ *   @return 1 for received, 0 for not received
+ */
+int sw_uartdbg_isrc()
+{
+	/*
+	 * Read HW_UARTDBGFR, a UART flag register
+	 * | Receive FIFO Full | 6 | 1 == full
+	 * | Transmit FIFO Full | 5 | 1 == full
+	 */
+	if(dbguart->fr & (1 << 6)){
+		return 1;
+	}else{
+		return 0;
+	}
+}

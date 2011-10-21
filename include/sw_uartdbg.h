@@ -33,5 +33,6 @@ int sw_uartdbg_nofifo_init();
 int sw_uartdbg_close();
 int sw_uartdbg_tc(unsigned char c);
 int sw_uartdbg_rc();
+int sw_uartdbg_isrc();
 
 #endif

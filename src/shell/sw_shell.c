@@ -50,7 +50,6 @@ int sw_shell_main()
 	for(;;){
 		sw_printf("x-boot# ");
 		sw_getn(cmd_buf, CMD_BUF_SIZE);
-		sw_printf("\n\r");
 		cmd_run(cmd_buf);
 	}
 	return 0;
