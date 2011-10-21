@@ -211,10 +211,13 @@ int cmd_mem_read(char *arg_list[], int n)
 
 int cmd_go(char *arg_list[], int n)
 {
-	sw_printf("cpu will run at %x, after 1 seconds...\n\r");
+	unsigned int addr;
+
+	addr = sw_strtoul(arg_list[1], NULL, 16); 
+	sw_printf("cpu will run at %x, after 1 seconds...\n\r", addr);
 	sw_usleep(1000 * 1000);
 
-	goto *sw_strtoul(arg_list[1], NULL, 16);
+	goto *addr;
 
 	return 0;
 }
