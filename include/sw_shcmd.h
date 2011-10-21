@@ -34,6 +34,8 @@ typedef int (*SW_SHELL_CMD)(char *arg_list[], int n);
 struct shell_cmd{
 	char name[20];
 	SW_SHELL_CMD cmd;
+	char *usage;		/* short help */
+	char *help;		/* long help */
 };
 
 int cmd_run(char *arg);

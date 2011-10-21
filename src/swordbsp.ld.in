@@ -31,6 +31,11 @@ SECTIONS
 {
 	/* BASE_ADDR will be replaced with definition in Makefile by cpp */
 	. = BASE_ADDR;
+	.vector : {
+		KEEP(*(.vector));
+	}
+
+	. = ALIGN(32);
 	.reset : {
 	       KEEP(*(.reset));
 	}

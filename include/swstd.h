@@ -26,6 +26,10 @@
 #ifndef SWORD_SWSTD_H
 #define SWORD_SWSTD_H
 
+typedef unsigned char U8;
+typedef unsigned short int U16;
+typedef unsigned long int U32;
+
 int sw_usleep(unsigned int us);
 
 #endif

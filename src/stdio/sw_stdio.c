@@ -67,9 +67,16 @@ char *sw_getn(char *str, int n)
 	p = str;
 	ch = sw_getchar();
 	while(count < n - 1 && ch != '\r'){
-		count++;
-		*p++ = ch;
-		sw_putchar(ch);
+		if(ch == '\b' && count != 0){
+			p--;
+			*p = ' ';
+			sw_printf("\b \b");
+			count--;
+		}else if(ch != '\b'){
+			count++;
+			*p++ = ch;
+			sw_putchar(ch);
+		}
 		ch = sw_getchar();
 	}
 	*p = '\0';

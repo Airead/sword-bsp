@@ -26,13 +26,27 @@
 #ifndef SWORD_KEYBOARD_H
 #define SWORD_KEYBOARD_H
 
+#include "swstd.h"
+
 #define IRQ_LEVEL 1
 #define IRQ_EDGE 0
 #define IRQ_LOW 0
 #define IRQ_HIGH 1
 
-int sw_int_init_icoll();
+struct irq_pin{
+	U8 bankn;
+	U8 pinn;
+	U8 irqlevel;
+	U8 irqpol;
+	U8 irqsrc;
+	U8 priority;
+	void (*irq_handle)(void);
+};
+
+int sw_int_init_icoll0();
 int sw_int_init_pinctrl(int bankn, int pinn, int irqlevel, int irqpol,
 			int irqsrc, int priority, void irq_handle(void));
+void irq_dist0(void);
+int irq_clear_pending(int bankn, int pinn, int priority);
 
 #endif

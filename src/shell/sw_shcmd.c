@@ -30,8 +30,15 @@
 
 /* Shell command collector */
 static struct shell_cmd shell_cmds[] = {
-	{"hello", cmd_world},
-	{"xmr", cmd_xmodem_rec}
+	{"hello", cmd_world, "short help: just test shell cmd frame", /* hello */
+
+	"long help, long long long long long long long long long "
+	"long long long long long long long long long long long."},
+	
+	{"xmr", cmd_xmodem_rec, "short help", /* xmr */
+
+	"long help "
+	"long long."}
 };
 
 /*
@@ -54,7 +61,7 @@ int cmd_run(char *arg)
 			break;
 		}
 
-		sw_puts("command not found\n\r");
+		sw_printf("`%s' not found as command\n\r", arg_list[0]);
 	}
 
 	return ret;

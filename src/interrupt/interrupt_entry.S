@@ -31,7 +31,7 @@
 	.global _start
 
 _start:
-	mov sp, #0x8000		@set stack(FD)
+	mov sp, #0x7500		@set stack(FD)
 	bl interrupttest	@call keyboardtest
 	b .			@catch pc
 

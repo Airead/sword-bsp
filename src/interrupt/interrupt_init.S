@@ -28,6 +28,19 @@
 	.arm
 
 	.section ".init", "ax"
+
+	.global int_init
+int_init:		
+	mrc p15, 0, r0, c1, c0, 0 @ read control register
+	mov r1, #1
+	bic r0, r0, r1, LSL #13 
+	mcr p15, 0, r0, c1, c0, 0 @ write control register
+
+	mov sp, #0x7500
+	msr cpsr_c, #0xd2 @change to irq mode
+	mov sp, #0x8000 @set irq stack
+	msr cpsr_c, #0xd3
+	
 	.global irq_enable
 irq_enable:
 	mrs r0, cpsr
@@ -42,4 +55,19 @@ irq_disable:
 	msr cpsr_c , r0
 	mov pc, lr
 
+irq_handler:
+	stmfd sp!, {r0-r12, r14}
+	bl irq_dist0
+	ldmfd sp!, {r0-r12, pc}^
+
+	.section ".vector", "ax"
+	B .				@reset (SVC)
+	B .				@undefined instruction (Undef)
+	B .				@soft interrupt (SVC)
+	B .				@pre instruction abort
+	B .				@data abort
+	B .				@reserv
+	LDR pc, =irq_handler		@IRQ	
+	B .				@FIQ
+	
 	.end

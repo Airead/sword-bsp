@@ -33,13 +33,14 @@ int key_pressed;
 void key_handle(void)
 {
 	key_pressed = 1;
+	irq_clear_pending(0, 23, 0);
 }
 
 int interrupttest(int argc, char *argv[])
 {
 	sw_beep_init();
 	sw_led_init();
-	sw_int_init_icoll();
+	sw_int_init_icoll0();
 	
 	/* we will set key4 to input interrupt, bank0 pin23 */
 

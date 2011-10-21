@@ -27,6 +27,7 @@
 #include "sw_interrupt.h"
 #include "swstd.h"
 
+extern void int_init(void);		
 extern void irq_enable(void);
 extern void irq_disable(void);
 
@@ -45,7 +46,7 @@ INTERRUPT_HANDLER vector_table[128];
 /*
  * Initialize Interrupt Collector
  */
-int sw_int_init_icoll()
+int sw_int_init_icoll0()
 {
 	/*
 	 * clear soft reset, regs = HW_ICOLL_CTRL
@@ -71,6 +72,9 @@ int sw_int_init_icoll()
 	
 	/* set Interrupt Collector Interrupt Vector Base Address Register */
 	icoll->vbase.dat = (int)vector_table; 
+
+	/* change to irq mode, and set irq stack */
+	int_init();
 
 	/* clear cpsr I bit, arm can handle interrupt */
 	irq_enable();
@@ -163,6 +167,25 @@ int sw_int_init_pinctrl(int bankn, int pinn, int irqlevel, int irqpol,
 	icoll->interrupt[irqsrc].clr = 1 << 3; /* clear softirq */
 	icoll->interrupt[irqsrc].set = 1 << 2; /* enable IRQ */
 	icoll->interrupt[irqsrc].set = priority & 0x3; /* set priority */
+	
+	return 0;
+}
+
+void irq_dist0(void)
+{
+	icoll->vector.dat = icoll->vector.dat; /* FIXME: what's meaning? */
+	(*((INTERRUPT_HANDLER *)icoll->vector.dat))();
+}
+
+int irq_clear_pending(int bankn, int pinn, int priority)
+{
+	/*
+	 * Set Level Acknowledge, regs = HW_ICOLL_LEVELACK
+	 *   3:0 | IRQLEVELACK | level0 = 0x1, 1 = 0x2, 2 = 0x4, 3 0x8 
+	 */
+	icoll->levelack.dat = 1 << priority; /* only fit level0, and no nest */
+	
+	pinctrl->irqstat[bankn].clr = 1 << pinn;
 	
 	return 0;
 }
