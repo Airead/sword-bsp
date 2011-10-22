@@ -1,10 +1,10 @@
 /********************************************************
  * @author  Airead Fan <fgh1987168@gmail.com>		*
- * @date    201110月 19 17:00:42 CST			*
+ * @date    201110月 22 22:09:43 CST			*
  ********************************************************
- *		after studying C 93 days		*
- *		after studying APUE 58 days		*
- *		after studying ARM 11 days		*
+ *		after studying C 96 days		*
+ *		after studying APUE 61 days		*
+ *		after studying ARM 14 days		*
  ********************************************************/
 
 /*
@@ -23,16 +23,16 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef SWORD_STR_H
-#define SWORD_STR_H
+#include "dm9000x.h"
+#include "sw_gpmi.h"
 
-int sw_strcmp(const char *str1, const char *str2);
-int sw_strncmp(const char *str1, const char *str2, int n);
-char *sw_strchr(const char *str, int c);
-int sw_ishex(char ch);
-unsigned long int sw_strtoul(char *nptr, char **endptr, int base);
-int sw_strlen(char *s);
-char *sw_strncat(char *dest, char *src, int n);
-char *sw_strcpy(char *dest, char *src);
-
-#endif
+int dm9000xtest(int argc, char *argv[])
+{
+	sw_gpmi_init();
+	//int dm9000_initialize(void);
+	dm9000_initialize();
+	//void dm9000_trans(char *buf, int size);
+	//void dm9000_recv(void (*callback)(char *,int));
+	
+	return 0;
+}

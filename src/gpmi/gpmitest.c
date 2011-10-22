@@ -1,10 +1,10 @@
 /********************************************************
  * @author  Airead Fan <fgh1987168@gmail.com>		*
- * @date    201110月 19 17:00:42 CST			*
+ * @date    201110月 22 22:52:30 CST			*
  ********************************************************
- *		after studying C 93 days		*
- *		after studying APUE 58 days		*
- *		after studying ARM 11 days		*
+ *		after studying C 96 days		*
+ *		after studying APUE 61 days		*
+ *		after studying ARM 14 days		*
  ********************************************************/
 
 /*
@@ -23,16 +23,17 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef SWORD_STR_H
-#define SWORD_STR_H
+#include "regs_imx233.h"
+#include "sw_gpmi.h"
 
-int sw_strcmp(const char *str1, const char *str2);
-int sw_strncmp(const char *str1, const char *str2, int n);
-char *sw_strchr(const char *str, int c);
-int sw_ishex(char ch);
-unsigned long int sw_strtoul(char *nptr, char **endptr, int base);
-int sw_strlen(char *s);
-char *sw_strncat(char *dest, char *src, int n);
-char *sw_strcpy(char *dest, char *src);
+static POWER * const power = (POWER*) REGS_POWER_BASE_PHYS;
+#define hw_power (*power)
 
-#endif
+int gpmitest(int argc, char *argv[])
+{
+	hw_power.ctrl.clr = 0x40000000; //gate on power-ctrl domain
+	
+	sw_gpmi_init();
+
+	return 0;
+}

@@ -1,10 +1,10 @@
 /********************************************************
  * @author  Airead Fan <fgh1987168@gmail.com>		*
- * @date    201110月 19 17:00:42 CST			*
+ * @date    201110月 22 22:46:02 CST			*
  ********************************************************
- *		after studying C 93 days		*
- *		after studying APUE 58 days		*
- *		after studying ARM 11 days		*
+ *		after studying C 96 days		*
+ *		after studying APUE 61 days		*
+ *		after studying ARM 14 days		*
  ********************************************************/
 
 /*
@@ -23,16 +23,23 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef SWORD_STR_H
-#define SWORD_STR_H
+#include "regs_imx233.h"
 
-int sw_strcmp(const char *str1, const char *str2);
-int sw_strncmp(const char *str1, const char *str2, int n);
-char *sw_strchr(const char *str, int c);
-int sw_ishex(char ch);
-unsigned long int sw_strtoul(char *nptr, char **endptr, int base);
-int sw_strlen(char *s);
-char *sw_strncat(char *dest, char *src, int n);
-char *sw_strcpy(char *dest, char *src);
+static CLKCTRL * const clkctrl = (CLKCTRL*) REGS_CLKCTRL_BASE_PHYS;
+#define hw_clkctrl (*clkctrl)
+static PINCTRL * const pinctrl = (PINCTRL*) REGS_PINCTRL_BASE_PHYS;
+#define hw_pinctrl (*pinctrl) 
 
-#endif
+int sw_gpmi_init(void)
+{
+	/*set GPMI freq. */
+	hw_clkctrl.gpmi &= ~(1<<31); //xtal clk 24Mhz to GPMI
+
+	/*GPMI pin initialized for GPMI-8 and CE0 & CE1*/
+	hw_pinctrl.muxsel[0].clr = 0xffff; //open gpmi_d0 - d7
+	hw_pinctrl.muxsel[1].clr = 0x000fc3cf;//0x000fc3c3;open r/w wp, ready0,1, ALE, CLE
+	hw_pinctrl.muxsel[5].clr = 0x03c00000;// 0x03000000; ////opne ce0/1
+	hw_pinctrl.pull[0].set = 0xff;
+	
+	return 0;
+}

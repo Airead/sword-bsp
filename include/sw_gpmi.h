@@ -1,10 +1,10 @@
 /********************************************************
  * @author  Airead Fan <fgh1987168@gmail.com>		*
- * @date    201110月 19 17:00:42 CST			*
+ * @date    201110月 22 22:45:15 CST			*
  ********************************************************
- *		after studying C 93 days		*
- *		after studying APUE 58 days		*
- *		after studying ARM 11 days		*
+ *		after studying C 96 days		*
+ *		after studying APUE 61 days		*
+ *		after studying ARM 14 days		*
  ********************************************************/
 
 /*
@@ -23,16 +23,9 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef SWORD_STR_H
-#define SWORD_STR_H
+#ifndef SWORD_GPMI_H
+#define SWORD_GPMI_H
 
-int sw_strcmp(const char *str1, const char *str2);
-int sw_strncmp(const char *str1, const char *str2, int n);
-char *sw_strchr(const char *str, int c);
-int sw_ishex(char ch);
-unsigned long int sw_strtoul(char *nptr, char **endptr, int base);
-int sw_strlen(char *s);
-char *sw_strncat(char *dest, char *src, int n);
-char *sw_strcpy(char *dest, char *src);
+int sw_gpmi_init(void);
 
 #endif
