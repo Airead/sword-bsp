@@ -199,13 +199,32 @@ int cmd_nand_read(char *arg_list[], int n)
 
 int cmd_mem_write(char *arg_list[], int n)
 {
-	sw_printf("\nstart run %s...\n\n\r",__func__);
+	volatile int *addr;
+
+	if (n < 3) {
+		sw_printf("usage: %s <memaddr> <data>\n\r", arg_list[0]);
+		return -1;
+	}
+
+	addr = (int *)sw_strtoul(arg_list[1], NULL, 16);
+	*addr = (int)sw_strtoul(arg_list[2], NULL, 16);
+
 	return 0;
 }
 
 int cmd_mem_read(char *arg_list[], int n)
 {
-	sw_printf("\nstart run %s...\n\n\r",__func__);
+	volatile int *addr;
+
+	if (n < 2) {
+		sw_printf("usage: %s <memaddr>\n\r", arg_list[0]);
+		return -1;
+	}
+
+	addr = (int *)sw_strtoul(arg_list[1], NULL, 16);
+
+	sw_printf("addr[%x]: %x\n\r", addr, *addr);
+
 	return 0;
 }
 

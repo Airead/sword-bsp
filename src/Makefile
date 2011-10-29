@@ -80,7 +80,7 @@ clean:
 	@echo Cleaning...
 	@echo Files:
 	rm -rf $(PROJ).elf $(PROJ).bin *.o *~ *.map \
-	$(BOOT_LAYOUT_OUT) $(SRC_OBJS)
+	$(BOOT_LAYOUT_OUT) $(SRC_OBJS) *.out *.files
 cleanall:
 	make clean
 	rm -f $(ELFANDBIN)

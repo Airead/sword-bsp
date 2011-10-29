@@ -28,6 +28,7 @@
 #include "sw_xboot.h"
 #include "sw_shell.h"
 #include "swstd.h"
+#include "sw_sdram.h"
 
 int sw_xboot_main(void)
 {
@@ -36,7 +37,8 @@ int sw_xboot_main(void)
 	char *promt = "input any key to enter x-boot: ";
 
 	sw_uartdbg_nofifo_init();
-	
+	sw_sdram_init();
+
 	waitsec = 3;
 
 	sw_printf("\n\n\n\r");
